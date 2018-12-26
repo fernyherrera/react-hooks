@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import jsonplaceholder from '../api/jsonplaceholder';
 
-const ResourceList = ({ resource }) => {
-
+const useResources = (resource) => {
   const [resources, setResources] = useState([]);
 
   const fetchResource = async (resource) => {
@@ -15,8 +14,22 @@ const ResourceList = ({ resource }) => {
     fetchResource(resource)
   }, [resource])
 
+  return resources;
+
+}
+
+const ResourceList = ({ resource }) => {
+  const resources = useResources(resource);
   return (
-    <div>{resources.length}</div>
+    <ul>
+      {resources.map(record => {
+        return (
+          <li key={record.id}>
+            {record.title}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
